@@ -1,0 +1,8 @@
+https://www.youtube.com/watch?v=1IF4uu0ptk4
+
+一.	实际操作
+1.	下载包
+MassTransit
+MassTransit.RabbitMQ
+MassTransit.Extensions.DependencyInjection
+MassTransit.AspNetCore

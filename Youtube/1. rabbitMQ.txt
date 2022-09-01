@@ -1,0 +1,19 @@
+https://www.youtube.com/watch?v=w84uFSwulBI
+
+一.	Protocols Supported
+1.	
+
+二.	实际操作
+1.	安装 rabbitMQ 的指令:  
+docker run -d --hostname my-rabbit --name demo-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+注: (1)	--name 指的是 这个 instance 的名字
+	(2)	第一个 -p 是 rabbitMQ 的 服务端口 地址(后台的)
+	(3)	第二个 -p 是 rabbitMQ 接受 请求的端口 的地址 (Client 调用的)
+	(4)	rabbitmq 是版本
+	
+2.	确认是否安装成功
+访问 http://localhost:15672/ 
+注意: 默认密码和账号都是 guest
+
+3.	安装包
+rabbitmq.client
