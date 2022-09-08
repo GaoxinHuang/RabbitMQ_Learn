@@ -10,6 +10,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add 
+builder.Services.AddMassTransit(config =>
+{
+    config.UsingRabbitMq((ctx, cfg) =>
+    {
+        cfg.Host("amqp://guest:guest@localhost:5672");
+    });
+});
+
+
+builder.Services.AddMassTransitHostedService();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
