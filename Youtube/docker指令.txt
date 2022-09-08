@@ -3,5 +3,5 @@ docker container ls -a: 加了 -a 就是全部
 docker start "container_name": 启动一个 container
 docker stop "container_name":  关闭一个 container
 
-docker run "image_name": 开始启用一个 image (注: 需要开启 container 才能, 跑地下 image)
+docker run "image_name": 开始启用一个 image
 docker run --rm "image_name": 移除 image
