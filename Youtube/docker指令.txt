@@ -1,0 +1,3 @@
+docker ps: 查看当前跑的 service
+docker container ls -a: 加了 -a 就是全部
+docker --rm "image_name": 移除 image
