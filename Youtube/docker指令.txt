@@ -1,7 +1,9 @@
-docker ps: 查看当前跑的 service
-docker container ls -a: 加了 -a 就是全部
+docker ps: 查看当前跑的 container
+docker ps -a: 查看全部的 container
+docker container ls -a: 加了 -a 就是全部 container (与 docker ps -a 同一个效果)
 docker start "container_name": 启动一个 container
 docker stop "container_name":  关闭一个 container
 
 docker run "image_name": 开始启用一个 image
 docker run --rm "image_name": 移除 image
+docker images -a: 加了 -a 就是全部 images
