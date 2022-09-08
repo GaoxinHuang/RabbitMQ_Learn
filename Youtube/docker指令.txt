@@ -1,3 +1,5 @@
 docker ps: 查看当前跑的 service
 docker container ls -a: 加了 -a 就是全部
 docker --rm "image_name": 移除 image
+docker start "container_name": 启动一个 container
+docker stop "container_name":  关闭一个 container
