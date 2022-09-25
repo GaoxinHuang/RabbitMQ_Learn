@@ -1,0 +1,24 @@
+1.	概念
+(1)	如何处理 multi-consumer 
+	- 可以跑多个 rabbitMQ consumers (同一个项目), 谁先抢到就是谁consumer 
+	
+2.	exchanges 的概念	
+(1)	What is an Exchange: exchanges in routes messages from a producer to a single or multiple consumers 
+
+(2)	An exchange 有三个元素:  (1)header attributes (2)routing keys (3)binding to route message 
+
+(3)	重点:	In RabbitMQ, 一个消息从来不会直接发给一个queue, 他们都是通过 exchange event， 来发送一个 message 到 queue上. 自动会用默认的 exchange (AMQP default - direct exchange)
+
+3.	Exchanges type
+(1)	Direct: Direct exchange uses routing key in the header to indentiy which queue the message should be send to. 
+			Routing key is a header value set by the producer. And consumder uses the routing key to bind the the queue. the exchange does exact match of routing key values
+			
+(2)	Topic: Topic exchange is also a type of direct exchange also uses routing key, but it does not do an exact match on the routing key, instead it does a pattern match based on pattern
+
+(3)	Header: Header exchange routes messages based on header values and are very similar to Topic exchange
+
+(4)	Fanout: As the name suggest, fanout exchange routes message to all the queues bound it. Take all the message and send it to all the queus connected 
+
+4.	两个比较重要的特性
+(1)	可以设置 message 的 生命周期 (ttl - time to leave for this message) 在 producer 里
+(2)	可以设置 prefetch count (一次读取几条) 在 consumer 里
