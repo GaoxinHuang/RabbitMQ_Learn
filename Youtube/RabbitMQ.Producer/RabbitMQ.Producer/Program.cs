@@ -20,7 +20,13 @@ using var channel = connection.CreateModel();
 //channel.BasicPublish("", "demo-queue", null, body); 
 #endregion
 
-#region Part 2 - queue
+#region Part 2
 //QueueProducer.Publish(channel); 
-DirectExchangePublisher.Publish(channel);
+//DirectExchangePublisher.Publish(channel);
+#endregion
+
+#region Part 3
+//TopicExchangePublisher.Publish(channel);
+//HeaderExchangePublisher.Publish(channel);
+FanoutExchangePublisher.Publish(channel);
 #endregion

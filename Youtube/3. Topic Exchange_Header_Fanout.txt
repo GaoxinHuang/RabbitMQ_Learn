@@ -1,0 +1,16 @@
+1.	概念
+(1)	Topic exchange
+a.	支持 routing key 的 pattern 模式
+
+(2)	Header exchange
+a.	支持用 header 是否匹配来执行
+
+2.	exchange 的各个特性
+(1)	Direct:  direct binding with the routing key. routing key 必须完全match, 不然不会被transfer (就是发送信息到 queue 里)
+(2)	topic:	可以提供 a pattern of routing key, 所有符合这个 pattern 都会发信息到queue
+(3)	Header: 可以提供 header 信息 matching 就可以 发信息到 queue
+(4)	Fanout: 不管任何的message, 都会发到当前那个的exchange 的 queue (等于 只要 exchange 名字对上就行了)
+
+3.	总结
+(1)	我们可以用发信息到 queue 上, 但是还是推荐用 exchange queue pattern, 
+	原因是这样的话, producer 方面可以做好routing key 和 header限制后,就不会因为 consumer的添加 而去做 变动

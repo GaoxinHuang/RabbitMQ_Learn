@@ -29,5 +29,12 @@ using var channel = connection.CreateModel();
 
 #region part 2
 //QueueConsumer.Consume(channel);
-DirectExchangeConsumer.Consume(channel);
+//DirectExchangeConsumer.Consume(channel);
 #endregion
+
+#region part 3
+//TopicExchangeConsumer.Consume(channel);
+//HeaderExchangeConsumer.Consume(channel);
+FanoutExchangeConsumer.Consume(channel);
+#endregion
+
