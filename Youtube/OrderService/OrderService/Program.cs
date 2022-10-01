@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-#region �� MassTransit DI
+#region 用 MassTransit DI
 builder.Services.AddMassTransit(config =>
 {
     config.UsingRabbitMq((ctx, cfg) =>
@@ -18,7 +18,7 @@ builder.Services.AddMassTransit(config =>
         cfg.Host("amqp://guest:guest@localhost:5672");
     });
 });
-//builder.Services.AddMassTransitHostedService(); // ò���Ѿ��� Obsolete �� Deprecated, ���� hosted service ���Զ��ӵ� container ��
+//builder.Services.AddMassTransitHostedService(); // 貌似已经被 Obsolete 或 Deprecated, 现在 hosted service 会自动加到 container 里
 #endregion
 
 
@@ -38,9 +38,9 @@ if (app.Environment.IsDevelopment())
 //    config.ReceiveEndpoint("temp-queue", c =>
 //    {
 //        c.Handler<Order>(ctx =>
-//        // ע: ������Զ�����һ�� top level �� exchange , ����� Order ������(������� Model.Order)�������Ƽ���� model ��ñ�ɹ���lib
-//        // Ȼ����� exchange ���һ�� "temp-queue" ��� exchange (ͬ�����Զ����ɵ�, ���� queue������),  ������Ϣ���� temp-queue ��� exchange
-//        // Ȼ����� "temp-queue" exchang ����ȥbinding  temp-queue,  �������Ϣ���� ���queue
+//        // 注: 这里会自动生成一个 top level 的 exchange , 以这个 Order 来命名(这里就是 Model.Order)。所以推荐这个 model 最好变成共享lib
+//        // 然后这个 exchange 会绑定一个 "temp-queue" 这个 exchange (同样是自动生成的, 根据 queue的名字),  而且消息传给 temp-queue 这个 exchange
+//        // 然后这个 "temp-queue" exchang 会再去binding  temp-queue,  把这个消息传给 这个queue
 //        {
 //            return Console.Out.WriteLineAsync(ctx.Message.Name);
 //        });
