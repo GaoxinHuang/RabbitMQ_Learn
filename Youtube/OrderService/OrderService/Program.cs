@@ -10,11 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-<<<<<<< HEAD
-#region ÓÃ MassTransit DI
-=======
-// Add 
->>>>>>> 8643d5ee8176ddfc4d7bdae0b3389648915a69ce
+#region ï¿½ï¿½ MassTransit DI
 builder.Services.AddMassTransit(config =>
 {
     config.UsingRabbitMq((ctx, cfg) =>
@@ -22,17 +18,10 @@ builder.Services.AddMassTransit(config =>
         cfg.Host("amqp://guest:guest@localhost:5672");
     });
 });
-<<<<<<< HEAD
-//builder.Services.AddMassTransitHostedService(); // Ã²ËÆÒÑ¾­±» Obsolete »ò Deprecated, ÏÖÔÚ hosted service »á×Ô¶¯¼Óµ½ container Àï
+//builder.Services.AddMassTransitHostedService(); // Ã²ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ Obsolete ï¿½ï¿½ Deprecated, ï¿½ï¿½ï¿½ï¿½ hosted service ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½Óµï¿½ container ï¿½ï¿½
 #endregion
 
 
-=======
-
-
-builder.Services.AddMassTransitHostedService();
-
->>>>>>> 8643d5ee8176ddfc4d7bdae0b3389648915a69ce
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,9 +38,9 @@ if (app.Environment.IsDevelopment())
 //    config.ReceiveEndpoint("temp-queue", c =>
 //    {
 //        c.Handler<Order>(ctx =>
-//        // ×¢: ÕâÀï»á×Ô¶¯Éú³ÉÒ»¸ö top level µÄ exchange , ÒÔÕâ¸ö Order À´ÃüÃû(ÕâÀï¾ÍÊÇ Model.Order)¡£ËùÒÔÍÆ¼öÕâ¸ö model ×îºÃ±ä³É¹²Ïílib
-//        // È»ºóÕâ¸ö exchange »á°ó¶¨Ò»¸ö "temp-queue" Õâ¸ö exchange (Í¬ÑùÊÇ×Ô¶¯Éú³ÉµÄ, ¸ù¾İ queueµÄÃû×Ö),  ¶øÇÒÏûÏ¢´«¸ø temp-queue Õâ¸ö exchange
-//        // È»ºóÕâ¸ö "temp-queue" exchang »áÔÙÈ¥binding  temp-queue,  °ÑÕâ¸öÏûÏ¢´«¸ø Õâ¸öqueue
+//        // ×¢: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ top level ï¿½ï¿½ exchange , ï¿½ï¿½ï¿½ï¿½ï¿½ Order ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Model.Order)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ model ï¿½ï¿½Ã±ï¿½É¹ï¿½ï¿½ï¿½lib
+//        // È»ï¿½ï¿½ï¿½ï¿½ï¿½ exchange ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ "temp-queue" ï¿½ï¿½ï¿½ exchange (Í¬ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Éµï¿½, ï¿½ï¿½ï¿½ï¿½ queueï¿½ï¿½ï¿½ï¿½ï¿½ï¿½),  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ temp-queue ï¿½ï¿½ï¿½ exchange
+//        // È»ï¿½ï¿½ï¿½ï¿½ï¿½ "temp-queue" exchang ï¿½ï¿½ï¿½ï¿½È¥binding  temp-queue,  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½queue
 //        {
 //            return Console.Out.WriteLineAsync(ctx.Message.Name);
 //        });
