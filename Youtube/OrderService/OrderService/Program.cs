@@ -10,7 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+<<<<<<< HEAD
 #region 用 MassTransit DI
+=======
+// Add 
+>>>>>>> 8643d5ee8176ddfc4d7bdae0b3389648915a69ce
 builder.Services.AddMassTransit(config =>
 {
     config.UsingRabbitMq((ctx, cfg) =>
@@ -18,10 +22,17 @@ builder.Services.AddMassTransit(config =>
         cfg.Host("amqp://guest:guest@localhost:5672");
     });
 });
+<<<<<<< HEAD
 //builder.Services.AddMassTransitHostedService(); // 貌似已经被 Obsolete 或 Deprecated, 现在 hosted service 会自动加到 container 里
 #endregion
 
 
+=======
+
+
+builder.Services.AddMassTransitHostedService();
+
+>>>>>>> 8643d5ee8176ddfc4d7bdae0b3389648915a69ce
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
