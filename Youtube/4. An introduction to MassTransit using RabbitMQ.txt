@@ -1,8 +1,23 @@
 https://www.youtube.com/watch?v=1IF4uu0ptk4
 
-一.	实际操作
+一. 概念
+1.  MassTransit 是什么: 就是一个 open-source framework for buidling distributed applications in .Net
+2.  特性:
+(1) out of box (开箱即用) integration for RabbitMQ, ActiveMQ, Azure Service Bus and Amazon SQS/SMS
+(2) Support message patterns such as event-drive state machines, sagas, message consumers and support for distributed transactions
+(3) Support in-memory test harness, which makes it very easy to implement unit and integration tests
+(4) Advanced monitoring feature such as distributed tracing and service health checks
+
+二.	实际操作 - Order Service
 1.	下载包
 MassTransit
-MassTransit.RabbitMQ
-MassTransit.Extensions.DependencyInjection
-MassTransit.AspNetCore
+MassTransit.RabbitMQ  - 用于 access RabbitMQ
+(下面两个包是为了自动生成 MassTransit host service, 但是V8以上的 MassTransit 貌似已经自动生成 host service 会attach 到 container, 不用写代码)
+MassTransit.Extensions.DependencyInjection - 公司没有用这个, 注: MassTransit V8 已经不需要加这个包了. (最后一个版本应该是 7.3.1)
+MassTransit.AspNetCore - 公司没有用这个, 注: MassTransit V8 已经不需要加这个包了. (最后一个版本应该是 7.3.1)
+                       // 不然会报错. https://stackoverflow.com/questions/70187422/addmasstransithostedservice-cannot-be-found
+
+2.  详见 OrderService 和 InventoryService 代码
+注: (1) 正如 二.1.下载包所说:   V8 的版本 不需要那两个包, 而且 MassTransit 会自动生成 host service, 然后 attach 到 container 里, 不用写代码
+    (2) OrderService 底下有 basic code 在  Programmer.cs, 里面 同时扮演了 consumer 和 publisher
+    (3) OrderService 在 OrderController 扮演的是 publisher, 而 InventoryService 是扮演的 consumer 
