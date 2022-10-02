@@ -1,0 +1,66 @@
+1.  概念
+(1) 场景:   a single operation 执行 multipe data/services/transaction, 
+    所以需要一个distributed transactions across these ralted services
+
+(2) 对于以上的场景, monolithic application 和 microservices 的不同点:
+b.  当 a monolithic application 就简单, 因为单一service,保存所有的数据在一个单一 sql transaction里
+c.  microservices 就会有问题如下:  
+(a) 如何保证所有的service 的操作(特别是数据操作)成功呢? 特别不同service 可能还会有互相影响
+(b) 如何保证一个 整个操作中, 所有数据要保持一致性
+(c) 如何保证整个操作过程中, 每个 service 是分离开来的 (isolation)
+(d) 如何保证数据的持久性
+
+解决方案:   生成一个 track 给所有的 transactions, 然后根据 requirement 去看哪个transaction fails, 我们需要做对应的 action
+
+(3) 什么是 Saga pattern
+a.  Saga pattern 就是去解决 Managing transaction across multiple microservices, 
+    或者说 Sago pattern 就是 Managing distributed transaction
+注: 这些 distributed transaction 问题 也会出现在 复杂的 monolithic system, 比如 有 message queues, file system, database
+    之前他们用一个叫 Microsoft Distributed Transaction Coordinator 去解决他们 (过时了)
+
+b.  Saga pattern distributed transaction is managed through multipe local transactions in the microservices.
+
+c.  如果一个 transaction 在 微服务失败了, 基于 saga pattern, 我们应该可以执行 rollback 所有的 microservices 的 operations
+    这样我们就能保证一个 transaction 失败了, 我们一样还能保证系统的完整性
+
+
+(4) 3 types of transactions in saga pattern
+a.  a type transaction could be reversed with an operation. e.g database entry
+b.  a type transaction could decides if the distributed transaction should proceed forward or stop.
+    比如 email services, 有些cases 下, 可能它 fail, 但是我们还是可以 proceed forward
+c.  retryable transaction. e.g. a HTTP call
+
+2.  2种 sago pattern 实现 - Choreography 和 Orchestration
+
+3.  Choreography: 在 choreography 里, 每个service 都能 通过 event 的方式 和别每个的 service 交流, 无需交流中心. 例子如下:
+a.  我们有 order service 和 product  service, 我们可以通过 event service (比如 RabbitMQ) 交流
+b.  有人下了订单了, order service 发信息给 event service, product service 接到message, 更新数据成功了, 然后把这个消息再回传给 order service 
+
+(2) Choreography 的优缺点:
+a.  优点:   
+(a) 无需 Coordinator, very simple to start. 
+(b) 没有 Coordinator, 就不会有 single point of Coordinator failure. 就是通常要坏了, 整个流程的 所有的 service 就会都
+
+b.  缺点: 
+(a) 无法管理 large number 的 microservices (比如 6,7 个services)
+(b) Unit tests 会更复杂, 因为 各个 services 依赖性强, 这样要保证 所有 service 都要跑起来
+
+4.  Orchestration 的特性:  
+(1) 它有个 centralised Orchestrator, Orchestrator 会告诉 每个microservices, 哪个services 应该去执行
+(2) 当有fail/issue, 它也会发送不同的 microservices 应该怎么去做, 比如 rollback
+(3) Orchestrator 会管理 states of each task through a state machine
+(4) 与 Choreography 不同的是 
+a.  Services 之间的交流不再通过 event bus, 而是通过 Orchestrator. 
+b.  Orchestrator 才是负责去call 不同的 service 和 管理 state of the service
+c.  这些service 可以被 http call, 同样也可以支持 event bus 或者 message broker(RabbitMQ), 但是 Orchestrator 知道 the state of each service
+d.  Orchestrator 同样也管理 rollback 或者 roll forward 等。
+e.  Orchestrator 才知道 transaction 是成功或者失败
+
+5.  Orchestration 的优缺点:  
+(1) 优点: 
+a.  Highly scalable logic since individual microservices does not have to talk to each other 
+b.  No possibility of cyclic dependency between microservices
+
+(2) 缺点:
+a.  Given is a single coordinator, it introduces a single point of failure.
+b.  Complex implement due to Managing state and coordinating transactions (MassTransit 支持 saga pattern 就简单多了)
