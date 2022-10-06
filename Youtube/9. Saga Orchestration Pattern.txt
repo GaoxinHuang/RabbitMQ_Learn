@@ -1,0 +1,32 @@
+一. 总结
+1.  视频作者用 多个 API 项目 来实现, 而不是用 RabbitMQ (虽然最后提到 可以用 RabbitMQ)
+2.  原理如下 (其实就是 API integration / 集成 ):
+(1) 有个 Orchestrator API 项目 作为入口, 所有操作通过 这个 Orchestrator API, 
+(2) 比如要 进行 order, 先到 Orchestrator API, Orchestrator 用 HttpClient 发送 Http 请求到 Order API
+(3) 得到 response 后, 再用  HttpClient 发送 http 请求到 Inventory API, 通知更新 等等
+(4) 可以对某个 阶段进行 try catch, 如下
+.... // order 请求完了
+try {
+    var inventoryClient = httpClientFactory.CreateClient("Inventory");
+    var inventoryResponse = await inventoryClient.PostAsync("/api/inventory", new StringContent(request, ..., "application/JSON"));
+    if(inventoryResponse.StatusCode!= HttpStatusCode.OK){
+        throw new Exception(inventoryResponse.Reason);
+    }
+} 
+catch (Exception ex){
+    // await orderClient.DeleteAsync("/api/order/{orderId}");
+    return new OrderResponse {Success = false, Reason = exc.Message} 
+}
+....// 接着下面的操作
+
+(5) 以上是在 Orchestrator API 这个项目操作的, 除了 inventory API, Order API 等等
+
+3.  优缺点 (个人总结):
+(1) 优点:
+a.  代码 简单明了
+b.  容易扩展
+
+(2) 缺点:
+a.  性能可能会差一些, 因为要等那么多 API 返回
+b.  需要多维护一个 Orchestrator API
+c.  最好需要 API Gateway - 来传递 Identity, 保证安全性
